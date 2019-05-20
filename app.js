@@ -4,8 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// import routers
+const swaggerDocs = require('./routes/swaggerDocs');
+const registerRouter = require('./routes/authentication/register');
+const loginRouter = require('./routes/authentication/login');
+const searchRouter = require('./routes/search/search');
+const offencesRouter = require('./routes/helpers/offences');
+const areasRouter = require('./routes/helpers/areas');
+const agesRouter = require('./routes/helpers/ages');
+const gendersRouter = require('./routes/helpers/genders');
+const yearsRouter = require('./routes/helpers/years');
 
 var app = express();
 
@@ -19,8 +27,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// use routers
+app.use('/', swaggerDocs);
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
+app.use('/search', searchRouter);
+app.use('/offences', offencesRouter);
+app.use('/areas', areasRouter);
+app.use('/ages', agesRouter);
+app.use('/genders', gendersRouter);
+app.use('/years', yearsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

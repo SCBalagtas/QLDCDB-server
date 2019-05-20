@@ -1,9 +1,10 @@
+// this is the years route
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+// simple logging
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send('years route here...');
 });
 
 module.exports = router;

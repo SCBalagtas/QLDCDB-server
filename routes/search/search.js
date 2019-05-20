@@ -1,9 +1,10 @@
+// this is the search route
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+// simple logging
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('search route here...');
 });
 
 module.exports = router;
