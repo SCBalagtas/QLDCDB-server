@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// declare database connection using knex
+const options = require('./knexfile');
+const knex = require('knex')(options);
+
 // import routers
 const swaggerDocs = require('./routes/swaggerDocs');
 const registerRouter = require('./routes/authentication/register');
@@ -26,6 +30,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// use database connection
+app.use((req, res, next) => {
+  req.db = knex;
+  next();
+});
+
+// TEST DATABASE CONNECTION
+// TEMPORARY ONLY!!!
+app.get('/knex', function(req, res, next) {
+  req.db.raw('SELECT VERSION()').then(
+    (version) => console.log((version[0][0]))
+  ).catch((err) => { console.log(err); throw err })
+  res.send('connection successful');
+});
 
 // use routers
 app.use('/', swaggerDocs);
