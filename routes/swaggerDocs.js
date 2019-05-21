@@ -4,7 +4,7 @@ var router = express.Router();
 
 // GET the swagger docs
 router.get('/', function(req, res, next) {
-  res.send('Swagger docs here...');
+  res.send('swagger docs here...');
 });
 
 module.exports = router;

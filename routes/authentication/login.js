@@ -4,7 +4,7 @@ var router = express.Router();
 
 // simple logging
 router.get('/', function(req, res, next) {
-  res.send('Login route here...');
+  res.send('login route here...');
 });
 
 module.exports = router;
