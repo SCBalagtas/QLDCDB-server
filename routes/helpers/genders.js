@@ -2,9 +2,19 @@
 var express = require('express');
 var router = express.Router();
 
-// simple logging
+/* GET JSON of distinct gender from the offences table in the web_computing database. */
 router.get('/', function(req, res, next) {
-  res.send('genders route here...');
+  req.db.from('offences').distinct('gender')
+  .then((rows) => {
+    return rows.map(row => row.gender);
+  })
+  .then((result) => {
+    res.json({'genders' : result})
+  })
+  .catch((err) => {
+    console.log(err);
+    res.json({'Error' : true, 'Message' : 'Error in MySQL query'})
+  })
 });
 
 module.exports = router;

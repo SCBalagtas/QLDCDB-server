@@ -2,9 +2,19 @@
 var express = require('express');
 var router = express.Router();
 
-// simple logging
+/* GET JSON of pretty from the offence_columns table in the web_computing database. */
 router.get('/', function(req, res, next) {
-  res.send('offences route here...');
+  req.db.from('offence_columns').select('pretty')
+  .then((rows) => {
+    return rows.map(row => row.pretty);
+  })
+  .then((result) => {
+    res.json({'offences' : result})
+  })
+  .catch((err) => {
+    console.log(err);
+    res.json({'Error' : true, 'Message' : 'Error in MySQL query'})
+  })
 });
 
 module.exports = router;

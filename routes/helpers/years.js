@@ -2,9 +2,19 @@
 var express = require('express');
 var router = express.Router();
 
-// simple logging
+/* GET JSON of distinct year from the offences table in the web_computing database. */
 router.get('/', function(req, res, next) {
-  res.send('years route here...');
+  req.db.from('offences').distinct('year')
+  .then((rows) => {
+    return rows.map(row => row.year);
+  })
+  .then((result) => {
+    res.json({'years' : result})
+  })
+  .catch((err) => {
+    console.log(err);
+    res.json({'Error' : true, 'Message' : 'Error in MySQL query'})
+  })
 });
 
 module.exports = router;
