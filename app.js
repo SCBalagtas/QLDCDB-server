@@ -8,6 +8,10 @@ var logger = require('morgan');
 const options = require('./knexfile');
 const knex = require('knex')(options);
 
+// declare POST middleware
+const helmet = require('helmet');
+const cors = require('cors');
+
 // import routers
 const swaggerDocs = require('./routes/swaggerDocs');
 const registerRouter = require('./routes/authentication/register');
@@ -36,6 +40,10 @@ app.use((req, res, next) => {
   req.db = knex;
   next();
 });
+
+// use POST middleware
+app.use(helmet());
+app.use(cors());
 
 // TEST DATABASE CONNECTION
 // TEMPORARY ONLY!!!
