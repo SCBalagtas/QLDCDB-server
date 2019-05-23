@@ -42,7 +42,7 @@ var router = express.Router();
         }));
       })
       .then((result) => {
-        res.json({'query' : {'offence': req.offence}, 'result' : result})
+        res.json({'query' : {'offence': req.query.offence}, 'result' : result})
       }).catch(() => {
         console.log(err);
         res.json({'Error' : true, 'Message' : err})
