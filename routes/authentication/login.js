@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* POST email and password to check if user exists the web_computing database. 
+/* POST email and password to check if user exists in the web_computing database. 
    If user exists, send back a JSON web token. */
 router.post('/', function(req, res, next) {
   // if request body is empty, return bad request
