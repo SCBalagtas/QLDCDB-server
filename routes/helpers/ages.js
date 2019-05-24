@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     return rows.map(row => row.age);
   })
   .then((result) => {
-    res.json({'ages' : result})
+    res.status(200).json({'ages' : result})
   })
   .catch((err) => {
     console.log(err);

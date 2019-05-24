@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     return rows.map(row => row.area);
   })
   .then((result) => {
-    res.json({'areas' : result})
+    res.status(200).json({'areas' : result})
   })
   .catch((err) => {
     console.log(err);
