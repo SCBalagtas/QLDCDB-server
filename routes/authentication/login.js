@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
           res.status(200).json({ token: token, 
                                  access_token: token, 
                                  token_type: 'Bearer', 
-                                 expiresIn: 86400 });
+                                 expires_in: 86400 });
           console.log('Successful login:', JSON.stringify(user)); // temporary logging
         });
       } else {
