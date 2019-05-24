@@ -49,12 +49,49 @@ router.get('/', verifyToken, function(req, res, next) {
     }
   })
 }, function(req, res, next) {
-    // search the database with the user's query
-    req.db.from('offences')
+    // save the query params in a request parameter if the query param exists
+    if (req.query.area) {
+      req.area = req.query.area.split(',');
+    }
+    if (req.query.age) {
+      req.age = req.query.age.split(',');
+    }
+    if (req.query.gender) {
+      req.gender = req.query.gender.split(',');
+    }
+    if (req.query.year) {
+      req.year = req.query.year.split(',');
+    }
+    next();
+}, function(req, res, next) {
+    // build the default search query
+    let mainQuery = req.db.from('offences')
           .innerJoin('areas', 'offences.area', 'areas.area')
           .sum(`${req.offence} as total`)
-          .select('offences.area', 'lat', 'lng')
-          .groupBy('area')
+          .select('offences.area', 'lat', 'lng');
+    // if query params is not empty, append to the mainQuery
+    if (req.area) {
+      for (let i = 0; i < req.area.length; i++) {
+        mainQuery = mainQuery.orWhere('offences.area', '=', req.area[i]);
+      }
+    }
+    if (req.age) {
+      for (let i = 0; i < req.age.length; i++) {
+        mainQuery = mainQuery.orWhere('age', '=', req.age[i]);
+      }
+    }
+    if (req.gender) {
+      for (let i = 0; i < req.gender.length; i++) {
+        mainQuery = mainQuery.orWhere('gender', '=', req.gender[i]);
+      }
+    }
+    if (req.year) {
+      for (let i = 0; i < req.year.length; i++) {
+        mainQuery = mainQuery.orWhere('year', '=', req.year[i]);
+      }
+    }
+    // search the database with the user's query and group by area
+    mainQuery.groupBy('area')
     .then((rows) => {
       // format the JSON that will be returned
       return rows.map(row => ({
@@ -65,10 +102,27 @@ router.get('/', verifyToken, function(req, res, next) {
       }));
     })
     .then((result) => {
-      res.json({'query' : {'offence': req.query.offence}, 'result' : result})
+      // build a query JSON to include in the response JSON
+      let userSearchQuery = {
+        'offence': req.query.offence
+      } 
+      // if query params is not empty, append to the userSearchQuery
+      if (req.area) {
+        userSearchQuery.area = req.area.toString();
+      }
+      if (req.age) {
+        userSearchQuery.age = req.age.toString();
+      }
+      if (req.gender) {
+        userSearchQuery.gender = req.gender.toString();
+      }
+      if (req.year) {
+        userSearchQuery.year = req.year.toString();
+      }
+      res.status(200).json({'query' : userSearchQuery, 'result' : result});
     }).catch(() => {
       console.log(err);
-      res.json({'Error' : true, 'Message' : err})
+      res.json({'Error' : true, 'Message' : err});
     })
 });
 
