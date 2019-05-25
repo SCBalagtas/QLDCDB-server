@@ -28,7 +28,6 @@ router.get('/', verifyToken, function(req, res, next) {
       // if the offence parameter in the request query is empty, return bad request
       if (!req.query.offence) {
         res.status(400).json({ message: 'Error on request query - you are missing the offence paramter' });
-        console.log('Error on request query:', JSON.stringify(req.query.offence)); // temporary logging
       } else {
         const pretty = {
           'pretty': req.query.offence
