@@ -25,6 +25,15 @@ const yearsRouter = require('./routes/helpers/years');
 
 var app = express();
 
+// use morgan logger middleware
+logger.token('req', (req, res) => JSON.stringify(req.headers));
+logger.token('res', (req, res) => {
+  const headers = {};
+  res.getHeaderNames().map(h => headers[h] = res.getHeader(h));
+  return JSON.stringify(headers);
+});
+app.use(logger('dev'));
+
 // use POST and security middleware
 app.use(helmet());
 app.use(cors());
@@ -33,7 +42,6 @@ app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
