@@ -36,6 +36,13 @@ app.use(logger('dev'));
 
 // use POST and security middleware
 app.use(helmet());
+// only allow javascript and css to load from this server
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}));
 app.use(cors());
 
 // view engine setup
