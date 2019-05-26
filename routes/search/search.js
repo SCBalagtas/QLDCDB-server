@@ -70,23 +70,93 @@ router.get('/', verifyToken, function(req, res, next) {
           .select('offences.area', 'lat', 'lng');
     // if query params is not empty, append to the mainQuery
     if (req.area) {
-      for (let i = 0; i < req.area.length; i++) {
-        mainQuery = mainQuery.orWhere('offences.area', '=', req.area[i]);
-      }
+      mainQuery = mainQuery.where(function() {
+        for (let i = 0; i < req.area.length; i++) {
+          // if this is the first area filter, use .where()
+          if (i === 0) {
+            this.where('offences.area', '=', req.area[i]);
+          } else {
+            this.orWhere('offences.area', '=', req.area[i]);
+          }
+        }
+      });
     }
     if (req.age) {
-      for (let i = 0; i < req.age.length; i++) {
-        mainQuery = mainQuery.orWhere('age', '=', req.age[i]);
+      // if there are no area filters before this, use .where(), else use .andWhere()
+      if (!req.area) {
+        mainQuery = mainQuery.where(function() {
+          for (let i = 0; i < req.age.length; i++) {
+            // if this is the first age filter, use .where()
+            if (i === 0) {
+              this.where('age', '=', req.age[i]);
+            } else {
+              this.orWhere('age', '=', req.age[i]);
+            }
+          }
+        });
+      } else {
+        mainQuery = mainQuery.andWhere(function() {
+          for (let i = 0; i < req.age.length; i++) {
+            // if this is the first age filter, use .where()
+            if (i === 0) {
+              this.where('age', '=', req.age[i]);
+            } else {
+              this.orWhere('age', '=', req.age[i]);
+            }
+          }
+        });
       }
     }
     if (req.gender) {
-      for (let i = 0; i < req.gender.length; i++) {
-        mainQuery = mainQuery.orWhere('gender', '=', req.gender[i]);
+      // if there are no area and age filters before this, use .where(), else use .andWhere()
+      if (!req.area && !req.age) {
+        mainQuery = mainQuery.where(function() {
+          for (let i = 0; i < req.gender.length; i++) {
+            // if this is the first gender filter, use .where()
+            if (i === 0) {
+              this.where('gender', '=', req.gender[i]);
+            } else {
+              this.orWhere('gender', '=', req.gender[i]);
+            }
+          }
+        });
+      } else {
+        mainQuery = mainQuery.andWhere(function() {
+          for (let i = 0; i < req.gender.length; i++) {
+            // if this is the first gender filter, use .where()
+            if (i === 0) {
+              this.where('gender', '=', req.gender[i]);
+            } else {
+              this.orWhere('gender', '=', req.gender[i]);
+            }
+          }
+        });
       }
     }
     if (req.year) {
-      for (let i = 0; i < req.year.length; i++) {
-        mainQuery = mainQuery.orWhere('year', '=', req.year[i]);
+      // if there are no area, age and gender filters before this, use .where(), else use .andWhere()
+      if (!req.area && !req.age && !req.gender) {
+        mainQuery = mainQuery.where(function() {
+          for (let i = 0; i < req.year.length; i++) {
+            // if this is the first year filter, use .where()
+            if (i === 0) {
+              this.where('year', '=', req.year[i]);
+            } else {
+              this.orWhere('year', '=', req.year[i]);
+            }
+          }
+        });
+      } else {
+        mainQuery = mainQuery.andWhere(function() {
+          for (let i = 0; i < req.year.length; i++) {
+            // if this is the first year filter, use .where()
+            if (i === 0) {
+              this.where('year', '=', req.year[i]);
+            } else {
+              this.orWhere('year', '=', req.year[i]);
+            }
+          }
+        });
       }
     }
     // search the database with the user's query and group by area
