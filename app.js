@@ -8,7 +8,7 @@ var logger = require('morgan');
 const options = require('./knexfile');
 const knex = require('knex')(options);
 
-// declare POST middleware
+// declare POST and security middleware
 const helmet = require('helmet');
 const cors = require('cors');
 
@@ -25,6 +25,10 @@ const yearsRouter = require('./routes/helpers/years');
 
 var app = express();
 
+// use POST and security middleware
+app.use(helmet());
+app.use(cors());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -40,10 +44,6 @@ app.use((req, res, next) => {
   req.db = knex;
   next();
 });
-
-// use POST middleware
-app.use(helmet());
-app.use(cors());
 
 // TEST DATABASE CONNECTION
 // TEMPORARY ONLY!!!
