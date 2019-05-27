@@ -1,0 +1,250 @@
+{ "openapi":"3.0.0",
+    "info":{ 
+        "title":"CAB230 : Web Computing API (QLDCDB)",
+        "description":"This API is the server-side component of the CAB230 assignment for Semester 1, 2019",
+        "version":"1.0.0"
+    },
+    "servers":[ 
+        {
+            "url": "https://localhost"
+        }
+    ],
+    "basePath":"/",
+    "tags":[
+        { 
+          "name":"Authentication"
+        },
+        { 
+          "name":"Search"
+        },
+        { 
+          "name":"Helpers"
+        }
+    ],
+    "paths":{ 
+        "/register":{ 
+            "post":{ 
+                "tags":["Authentication"],
+                "summary":"Registers a new user account",
+                "description":"This is the starting point apparently",
+                "operationId":"registerUser",
+                "produces":["application/json"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type":"string",
+                                        "example":"demo-user@gmail.com",
+                                        "required":true
+                                    },
+                                    "password":{
+                                        "type":"string",
+                                        "example":"demouserpassword",
+                                        "required":true
+                                    }
+                                },
+                                "example":{
+                                    "email":"demo-user@gmail.com",
+                                    "password":"demouserpassword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Created"
+                    },
+                    "400":{
+                        "description":"Bad Request"
+                    }
+                }
+            }
+        },
+        "/login":{ 
+            "post":{ 
+                "tags":["Authentication"],
+                "summary":"Login with an existing user account",
+                "operationId":"loginUser",
+                "produces":["application/json"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type":"string",
+                                        "example":"demo-user@gmail.com",
+                                        "required":true
+                                    },
+                                    "password":{
+                                        "type":"string",
+                                        "example":"demouserpassword",
+                                        "required":true
+                                    }
+                                },
+                                "example":{
+                                    "email":"demo-user@gmail.com",
+                                    "password":"demouserpassword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    },
+                    "401":{
+                        "description":"Unauthorised"
+                    }
+                }
+            }
+        },
+        "/search":{ 
+            "get":{
+                "tags":["Search"],
+                "description":"Search for offence data",
+                "operationId":"searchOffences",
+                "produces":["application/json"],
+                "parameters":[{
+                    "name":"offence",
+                    "in":"query",
+                    "description":"Name of the offence to search for",
+                    "required":true,
+                    "schema":{
+                        "type":"string"
+                    }
+                },
+                {
+                    "name":"area",
+                    "in":"query",
+                    "description":"List of comma-separated areas (LGAs) to filter search results by",
+                    "required":false,
+                    "schema":{
+                        "type":"string"
+                    }
+                },
+                {
+                    "name":"age",
+                    "in":"query",
+                    "description":"List of comma-separated ages to filter search results by",
+                    "required":false,
+                    "schema":{
+                        "type":"string"
+                    }
+                },
+                {
+                    "name":"gender",
+                    "in":"query",
+                    "description":"List of comma-separated genders to filter search results by",
+                    "required":false,
+                    "schema":{
+                        "type":"string"
+                    }
+                },
+                {
+                    "name":"year",
+                    "in":"query",
+                    "description":"List of comma-separated years to filter search results by",
+                    "required":false,
+                    "schema":{
+                        "type":"integer"
+                    }
+                },
+                {
+                    "name":"month",
+                    "in":"query",
+                    "description":"List of comma-separated months to filter search results by",
+                    "required":false,
+                    "schema":{
+                        "type":"integer"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    },
+                    "400":{
+                        "description":"Bad Request"
+                    },
+                    "401":{
+                        "description":"Unauthorised"
+                    }
+                }
+            }
+        },
+        "/offences":{
+            "get":{
+                "tags":["Helpers"],
+                "description":"List of offences to perform searches for",
+                "operationId":"getOffences",
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        },
+        "/areas":{
+            "get":{
+                "tags":["Helpers"],
+                "description":"List of areas to filter search results by",
+                "operationId":"getAreas",
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        },
+        "/ages":{
+            "get":{
+                "tags":["Helpers"],
+                "description":"List of ages to filter search results by",
+                "operationId":"getAges",
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        },
+        "/genders":{
+            "get":{
+                "tags":["Helpers"],
+                "description":"List of genders to filter search results by",
+                "operationId":"getGenders",
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        },
+        "/years":{
+            "get":{
+                "tags":["Helpers"],
+                "description":"List of years to filter search results by",
+                "operationId":"getYears",
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        }
+    }
+}
+                

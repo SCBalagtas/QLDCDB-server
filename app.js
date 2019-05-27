@@ -36,11 +36,13 @@ app.use(logger('dev'));
 
 // use POST and security middleware
 app.use(helmet());
-// only allow javascript and css to load from this server
+// only allow javascript and css to load from this server 
+// and also allow whatever the swagger middleware needs
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'"]
+    styleSrc: ["'self'", `'unsafe-inline'`],
+    imgSrc: ["'self'", `data:`]
   }
 }));
 app.use(cors());
