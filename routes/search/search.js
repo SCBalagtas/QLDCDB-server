@@ -61,6 +61,9 @@ router.get('/', verifyToken, function(req, res, next) {
     if (req.query.year) {
       req.year = req.query.year.split(',');
     }
+    if(req.query.month) {
+      req.month = req.query.month.split(',');
+    }
     next();
 }, function(req, res, next) {
     // build the default search query
@@ -154,6 +157,32 @@ router.get('/', verifyToken, function(req, res, next) {
               this.where('year', '=', req.year[i]);
             } else {
               this.orWhere('year', '=', req.year[i]);
+            }
+          }
+        });
+      }
+    }
+    if (req.month) {
+      // if there are no area, age, gender and year filters before this, use .where(), else use .andWhere()
+      if (!req.area && !req.age && !req.gender && !req.year) {
+        mainQuery = mainQuery.where(function() {
+          for (let i = 0; i < req.month.length; i++) {
+            // if this is the first month filter, use .where()
+            if (i === 0) {
+              this.where('month', '=', req.month[i]);
+            } else {
+              this.orWhere('month', '=', req.month[i]);
+            }
+          }
+        });
+      } else {
+        mainQuery = mainQuery.andWhere(function() {
+          for (let i = 0; i < req.month.length; i++) {
+            // if this is the first month filter, use .where()
+            if (i === 0) {
+              this.where('month', '=', req.month[i]);
+            } else {
+              this.orWhere('month', '=', req.month[i]);
             }
           }
         });
