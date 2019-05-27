@@ -1,12 +1,12 @@
 { "openapi":"3.0.0",
     "info":{ 
-        "title":"CAB230 : Web Computing API (QLDCDB)",
+        "title":"CAB230 :Web Computing API (QLDCDB)",
         "description":"This API is the server-side component of the CAB230 assignment for Semester 1, 2019",
         "version":"1.0.0"
     },
     "servers":[ 
         {
-            "url": "https://localhost"
+            "url":"https://localhost"
         }
     ],
     "basePath":"/",
@@ -29,13 +29,13 @@
                 "description":"This is the starting point apparently",
                 "operationId":"registerUser",
                 "produces":["application/json"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
                                     "email":{
                                         "type":"string",
                                         "example":"demo-user@gmail.com",
@@ -57,10 +57,40 @@
                 },
                 "responses":{
                     "201":{
-                        "description":"Created"
+                        "description":"Created",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "message":"Account successfully registered"
+                                }
+                            }
+                        }
                     },
                     "400":{
-                        "description":"Bad Request"
+                        "description":"Bad Request",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "message":"Error: Account with this email already exists"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -71,13 +101,13 @@
                 "summary":"Login with an existing user account",
                 "operationId":"loginUser",
                 "produces":["application/json"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
                                     "email":{
                                         "type":"string",
                                         "example":"demo-user@gmail.com",
@@ -99,10 +129,52 @@
                 },
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "token":{
+                                            "type":"string"
+                                        },
+                                        "access_token":{
+                                            "type":"string"
+                                        },
+                                        "token_type":{
+                                            "type":"string"
+                                        },
+                                        "expires_in":{
+                                            "type":"integer"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1Nzg2LCJlbWFpbCI6ImRlbW8xMjM0QGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTUzMjQ2MDIsImV4cCI6MTU1NTQxMTAwMn0.mo85iKuAQ_h8n8-6pkeNNs5CCnV0G8hScxhi_ml_Q6c",
+                                    "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1Nzg2LCJlbWFpbCI6ImRlbW8xMjM0QGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTUzMjQ2MDIsImV4cCI6MTU1NTQxMTAwMn0.mo85iKuAQ_h8n8-6pkeNNs5CCnV0G8hScxhi_ml_Q6c",
+                                    "token_type":"Bearer",
+                                    "expires_in":86400
+                                }
+                            }
+                        }
                     },
                     "401":{
-                        "description":"Unauthorised"
+                        "description":"Unauthorised",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "message":"Invalid login - incorrect email or password"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -169,13 +241,93 @@
                 }],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "query":{
+                                            "type":"object",
+                                            "properties":{
+                                                "offence":{
+                                                    "type":"string"
+                                                }
+                                            }
+                                        },
+                                        "result":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                    "LGA":{
+                                                        "type":"string"
+                                                    },
+                                                    "total":{
+                                                        "type":"integer"
+                                                    },
+                                                    "lat":{
+                                                        "type":"integer"
+                                                    },
+                                                    "lng":{
+                                                        "type":"integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "query":{
+                                        "offence":"Homicide (Murder)"
+                                      },
+                                      "result":[
+                                        {
+                                          "LGA":"Aurukun Shire Council",
+                                          "total":4,
+                                          "lat":-27.470812,
+                                          "lng":153.022455
+                                        }
+                                      ]
+                                }
+                            }
+                        }
                     },
                     "400":{
-                        "description":"Bad Request"
+                        "description":"Bad Request",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "message":"Error on request query - you are missing the offence paramter"
+                                }
+                            }
+                        }
                     },
                     "401":{
-                        "description":"Unauthorised"
+                        "description":"Unauthorised",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "message":"Error - Your authorization token is invalid"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -188,7 +340,28 @@
                 "produces":["application/json"],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "offences":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "offences":[
+                                        "Advertising Prostitution",
+                                        "Armed Robbery"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -201,7 +374,28 @@
                 "produces":["application/json"],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "areas":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "areas":[
+                                        "Aurukun Shire Council",
+                                        "Balonne Shire Council"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -214,7 +408,28 @@
                 "produces":["application/json"],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "ages":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "ages":[
+                                        "Adult",
+                                        "Juvenile"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -227,7 +442,28 @@
                 "produces":["application/json"],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "genders":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "genders":[
+                                        "Female",
+                                        "Male"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -240,7 +476,28 @@
                 "produces":["application/json"],
                 "responses":{
                     "200":{
-                        "description":"OK"
+                        "description":"OK",
+                        "content":{
+                            "apllication/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "years":{
+                                            "type":"array",
+                                            "items":{
+                                                "type":"integer"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example":{
+                                    "years":[
+                                        2001,
+                                        2002
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
