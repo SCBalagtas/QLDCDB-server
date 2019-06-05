@@ -219,8 +219,8 @@ router.get('/', verifyToken, function(req, res, next) {
       }
       res.status(200).json({'query' : userSearchQuery, 'result' : result});
     }).catch(() => {
-      console.log(err);
-      res.json({'Error' : true, 'Message' : err});
+      console.log();
+      res.status(404).json({'Error' : true, 'Message' : 'Error in SQL query - No result'});
     })
 });
 
