@@ -1,6 +1,6 @@
 { "openapi":"3.0.0",
     "info":{ 
-        "title":"CAB230 :Web Computing API (QLDCDB)",
+        "title":"CAB230 : Web Computing API (QLDCDB)",
         "description":"This API is the server-side component of the CAB230 assignment for Semester 1, 2019",
         "version":"1.0.0"
     },
